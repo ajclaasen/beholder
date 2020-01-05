@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 
-const monsterServer = "https://monstermaker.herokuapp.com/monsters.json";
+import { MonsterDataService } from '../../services/monster-data.service';
 
 @Component({
   selector: 'app-home',
@@ -11,10 +10,12 @@ const monsterServer = "https://monstermaker.herokuapp.com/monsters.json";
 export class HomePage {
   monsterArray: any;
 
-  constructor(private http: HttpClient) {
-    this.http.get(monsterServer)
-      .subscribe((data: any) => {
-        this.monsterArray = data;
-      });
+  constructor(public monsterDataService: MonsterDataService) {
+  }
+
+  ngOnInit(){
+    this.monsterDataService.loadMonsterIndex().subscribe((data: any) => {
+      this.monsterArray = data;
+    });
   }
 }
