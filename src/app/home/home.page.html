@@ -9,7 +9,7 @@
 <ion-content>
   <div class="ion-padding">
     <ion-list>
-      <ion-item *ngFor="let monster of monsterArray">
+      <ion-item *ngFor="let monster of monsterArray" href="/monster/{{monster.id}}">
         <ion-label>{{monster.name}}</ion-label>
       </ion-item>
     </ion-list>

@@ -10,8 +10,7 @@ import { MonsterDataService } from '../../services/monster-data.service';
 export class HomePage {
   monsterArray: any;
 
-  constructor(public monsterDataService: MonsterDataService) {
-  }
+  constructor(public monsterDataService: MonsterDataService) { }
 
   ngOnInit(){
     this.monsterDataService.loadMonsterIndex().subscribe((data: any) => {

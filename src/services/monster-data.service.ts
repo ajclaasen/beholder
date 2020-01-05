@@ -14,4 +14,8 @@ export class MonsterDataService {
   loadMonsterIndex() {
     return this.http.get(`${monsterServer}monsters.json`);
   }
+
+  loadMonster(monsterId: string) {
+    return this.http.get(`${monsterServer}monsters/${monsterId}.json`);
+  }
 }

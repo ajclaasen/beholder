@@ -1,0 +1,50 @@
+$dark-red: #660000;
+
+body {
+  font-family: 'Noto Sans', 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
+}
+
+h1, h2 {
+  font-family: 'Libre Baskerville', 'Lora', 'Calisto MT', 'Bookman Old Style',
+               Bookman, 'Goudy Old Style', Garamond, 'Hoefler Text',
+               'Bitstream Charter', Georgia, serif;
+}
+
+h1 {
+  color: $dark-red
+}
+
+h3 {
+  font-size: 1rem;
+  font-style: italic;
+}
+
+h4 {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-right: 4px;
+  display: inline;
+}
+
+p {
+  display: inline;
+}
+
+.top-stats {
+  color: $dark-red;
+}
+
+.abilities-block {
+  text-align: center;
+  h4 {
+    margin-top: 0;
+    margin-bottom: 0.33rem;
+    display: block;
+  }
+}
+
+.property-block {
+  h4 {
+    font-style: italic;
+  }
+}
