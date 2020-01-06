@@ -1,11 +1,11 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{monsterData ? monsterData.name : "-"}}</ion-title>
+    <ion-title>{{monsterData?.name}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <h1>{{monsterData ? monsterData.name : "-"}}</h1>
-  <p><b>Hit Points</b> {{monsterData ? monsterData.hitPoints : "-"}}</p>
-  <p><b>Damage</b> {{monsterData ? monsterData.damage : "-"}}</p>
+  <h1>{{monsterData?.name}}</h1>
+  <p><b>Hit Points</b> {{monsterData?.hitPoints}}</p>
+  <p><b>Damage</b> {{monsterData?.damage}}</p>
 </ion-content>
