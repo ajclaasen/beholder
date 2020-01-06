@@ -11,7 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { HttpClientModule } from '@angular/common/http';
 
-import { MonsterDataService } from './../services/monster-data.service';
+import { MonsterDataService } from './services/monster-data.service';
 
 @NgModule({
   declarations: [

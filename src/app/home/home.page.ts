@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { MonsterDataService } from '../../services/monster-data.service';
+import { MonsterDataService } from '../services/monster-data.service';
 
 @Component({
   selector: 'app-home',

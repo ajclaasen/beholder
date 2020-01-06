@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { IMonster } from '../interfaces/monster';
 
-import { MonsterDataService } from '../../services/monster-data.service';
+import { MonsterDataService } from '../services/monster-data.service';
 
 @Component({
   selector: 'app-view-monster',
