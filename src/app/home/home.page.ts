@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+import { IMonster } from './../interfaces/monster';
 import { MonsterDataService } from '../services/monster-data.service';
 
 @Component({
@@ -8,12 +9,12 @@ import { MonsterDataService } from '../services/monster-data.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  monsterArray: any;
+  monsterArray: IMonster[];
 
   constructor(public monsterDataService: MonsterDataService) { }
 
   ngOnInit(){
-    this.monsterDataService.loadMonsterIndex().subscribe((data: any) => {
+    this.monsterDataService.loadMonsterIndex().subscribe((data: IMonster[]) => {
       this.monsterArray = data;
     });
   }

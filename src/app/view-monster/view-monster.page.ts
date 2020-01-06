@@ -23,7 +23,7 @@ export class ViewMonsterPage implements OnInit {
   ngOnInit() {
     this.monsterId = this.activatedRoute.snapshot.paramMap.get('monsterId');
     if(this.monsterId) {
-      this.monsterDataService.loadMonster(this.monsterId).subscribe((data: any) => {
+      this.monsterDataService.loadMonster(this.monsterId).subscribe((data: IMonster) => {
         this.monsterData = data;
         console.log(this.monsterData);
       });
