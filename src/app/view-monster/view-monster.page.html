@@ -1,11 +1,11 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{monsterData?.name}}</ion-title>
+    <ion-title>{{monsterData ? monsterData?.name : "None"}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <h1>{{monsterData?.name}}</h1>
-  <p><b>Hit Points</b> {{monsterData?.hitPoints}}</p>
-  <p><b>Damage</b> {{monsterData?.damage}}</p>
+  <p *ngIf="monsterData?.hitPoints"><b>Hit Points</b> {{monsterData?.hitPoints}}</p>
+  <p *ngIf="monsterData?.damage"><b>Damage</b> {{monsterData?.damage}}</p>
 </ion-content>

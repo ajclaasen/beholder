@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { throwError } from 'rxjs'
 
 import { IMonster } from '../interfaces/monster';
 
@@ -25,9 +26,7 @@ export class ViewMonsterPage implements OnInit {
     if(this.monsterId) {
       this.monsterDataService.loadMonster(this.monsterId).subscribe((data: IMonster) => {
         this.monsterData = data;
-        console.log(this.monsterData);
       });
     }
-    
   }
 }
