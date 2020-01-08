@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { throwError } from 'rxjs'
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { throwError } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 import { IMonster } from '../interfaces/monster';
 
@@ -12,21 +13,25 @@ import { MonsterDataService } from '../services/monster-data.service';
   styleUrls: ['./view-monster.page.scss'],
 })
 export class ViewMonsterPage implements OnInit {
-
-  monsterId: string = null;
+  pageTitle: string = "";
   monsterData: IMonster;
 
   constructor(
-    private activatedRoute: ActivatedRoute, 
+    private route: ActivatedRoute, 
     public monsterDataService: MonsterDataService
     ) { }
 
   ngOnInit() {
-    this.monsterId = this.activatedRoute.snapshot.paramMap.get('monsterId');
-    if(this.monsterId) {
-      this.monsterDataService.loadMonster(this.monsterId).subscribe((data: IMonster) => {
-        this.monsterData = data;
-      });
-    }
+    this.route.paramMap.pipe(
+      switchMap((params: ParamMap) => {
+        return this.monsterDataService.loadMonster(params.get('id'));
+      })
+    ).subscribe((data: IMonster) => {
+      this.monsterData = data;
+    },
+    (error: any) => {
+      console.error(`error: ${JSON.stringify(error)}`);
+      this.pageTitle = error.statusText;
+    });
   }
 }
