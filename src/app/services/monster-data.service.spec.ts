@@ -8,20 +8,21 @@ import { IMonster } from './../interfaces/monster';
 const monsterServer = "https://monstermaker.herokuapp.com/"
 
 describe('MonsterDataService', () => {
+  let httpController: HttpTestingController;
   let monsterDataService: MonsterDataService;
-  let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [MonsterDataService]
     });
+
+    httpController = TestBed.get(HttpTestingController);
     monsterDataService = TestBed.get(MonsterDataService);
-    httpMock = TestBed.get(HttpTestingController);
   });
 
   afterEach(() => {
-    httpMock.verify();
+    httpController.verify();
   });
 
   it('should be created', () => {
@@ -30,34 +31,33 @@ describe('MonsterDataService', () => {
   });
 
   describe('.loadMonsterIndex', () => {
-    const mockMonsters: IMonster[] = [
+    const monstersData: IMonster[] = [
       { id: 1, name: "Alpha" },
       { id: 2, name: "Beta" }
     ];
     
     it('should load an array of monsters', () => {
-      monsterDataService.loadMonsterIndex().subscribe(monsters => {
-        expect(monsters.length).toBe(2);
-        expect(monsters).toEqual(mockMonsters);
+      monsterDataService.loadMonsterIndex().subscribe(data => {
+        expect(data.length).toBe(2);
+        expect(data).toEqual(monstersData);
       });
 
-      const mockReq = httpMock.expectOne(`${monsterServer}monsters.json`);
-
-      mockReq.flush(mockMonsters);
+      const mockReq = httpController.expectOne(`${monsterServer}monsters.json`);
+      mockReq.flush(monstersData);
     });
   });
 
   describe('.loadMonster', () => {
-    const mockMonster: IMonster = { id: 1, name: "Alpha" };
+    const monsterData: IMonster = { id: 1, name: "Alpha" };
 
     it('should load a single monster', () => {
-      monsterDataService.loadMonster("1").subscribe(monster => {
-        expect(monster).toEqual(mockMonster);
+      monsterDataService.loadMonster("1").subscribe(data => {
+        expect(data).toEqual(monsterData);
       });
 
-      const mockReq = httpMock.expectOne(`${monsterServer}monsters/1.json`);
+      const mockReq = httpController.expectOne(`${monsterServer}monsters/1.json`);
 
-      mockReq.flush(mockMonster);
+      mockReq.flush(monsterData);
     });
   });
 });
