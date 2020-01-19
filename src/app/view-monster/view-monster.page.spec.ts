@@ -1,18 +1,24 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
-import { of, throwError } from 'rxjs';
+import { of, throwError, never } from 'rxjs';
 
 import { MonsterDataService } from './../services/monster-data.service';
 import { ViewMonsterPage } from './view-monster.page';
 import { ActivatedRoute } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
+
+const thrownError = new HttpErrorResponse({
+  status: 0, 
+  statusText: "Unknown Error"
+});
 
 class MockMonsterDataService {
   loadMonster(id: number) {
     if (id != 1) { 
-      return throwError({status: 0, statusText: "Unknown Error"}); 
+      return throwError(thrownError);
     }
-    return of({ id: id, name: "Alpha" });
+    return of({ id: id, name: "Alpha", hitPoints: 123, damage: 456 });
   }
 }
 
@@ -25,7 +31,7 @@ describe('ViewMonsterPage', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ ViewMonsterPage ],
-      imports: [IonicModule.forRoot()],
+      imports: [IonicModule],
       providers: [
         { 
           provide: ActivatedRoute, 
@@ -37,35 +43,57 @@ describe('ViewMonsterPage', () => {
         }
       ]
     }).compileComponents();
-
-    fixture = TestBed.createComponent(ViewMonsterPage);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
   }));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ViewMonsterPage);
+    component = fixture.componentInstance;
+  });
+  
+  describe('before the server has responded', () => {
+    beforeEach(() => {
+      spyOn(component.monsterDataService, "loadMonster").and.returnValue(never());
+      fixture.detectChanges();
+    });
+
+    it('should show that it is loading in the title', () => {
+      let pageTitle = fixture.debugElement.query(By.css("ion-title")).nativeElement.innerHTML;
+      expect(pageTitle).toContain("Loading...");
+    });
   });
 
   describe('when a monster with the specified id is not found', () => {
     beforeAll(() => idParam = -1);
+    beforeEach(() => fixture.detectChanges());
 
-    it('should show the error text as the page title', () => {
+    it('should show the error', () => {
       let pageTitle = fixture.debugElement.query(By.css("ion-title")).nativeElement.innerHTML;
-      expect(pageTitle).toBe("Unknown Error", 'title');
+      let pageBody = fixture.debugElement.query(By.css("ion-content")).nativeElement.innerHTML;
+
+      expect(pageTitle).toContain("Unknown Error");
+      expect(pageBody).toContain("Http failure response");
+      expect(pageBody).toContain("Unknown Error");
     });
   });
 
   describe('when a monster with the specified ID is found', () => {
     beforeAll(() => idParam = 1);
+    beforeEach(() => fixture.detectChanges());
+
+    it('should create', () => {
+      expect(component).toBeTruthy();
+    });
 
     it('should show the monster\'s name as the page title', () => {
       let pageTitle = fixture.debugElement.query(By.css("ion-title")).nativeElement.innerHTML;
-      expect(pageTitle).toBe("Alpha", 'title');
+      expect(pageTitle).toContain("Alpha");
     });
 
-    xit('should show the monster\'s hit points and damage', () => {
-      // TODO
-    });
+    it('should show the monster\'s hit points and damage', async(() => {
+      let pageBody = fixture.debugElement.query(By.css("ion-content")).nativeElement.innerHTML;
+
+      expect(pageBody).toContain("123"); // Hit Points
+      expect(pageBody).toContain("456"); // Damage
+    }));
   });
 });

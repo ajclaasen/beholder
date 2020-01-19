@@ -1,11 +1,31 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{monsterData ? monsterData?.name : pageTitle}}</ion-title>
+    <ion-title>
+      <span *ngIf="monster$ | async as monster; else loadingOrErrorTitle">
+        {{monster?.name}}
+      </span>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <h1>{{monsterData?.name}}</h1>
-  <p *ngIf="monsterData?.hitPoints"><b>Hit Points</b> {{monsterData?.hitPoints}}</p>
-  <p *ngIf="monsterData?.damage"><b>Damage</b> {{monsterData?.damage}}</p>
+  <div *ngIf="monster$ | async as monster; else loadingOrErrorContent">
+    <h1>{{monster?.name}}</h1>
+    <p *ngIf="monster?.hitPoints"><b>Hit Points</b> {{monster?.hitPoints}}</p>
+    <p *ngIf="monster?.damage"><b>Damage</b> {{monster?.damage}}</p>
+  </div>
 </ion-content>
+
+<ng-template #loadingOrErrorTitle>
+  <span *ngIf="errorObject$; else loading">
+    {{ errorObject$.statusText }}
+  </span>
+</ng-template>
+<ng-template #loadingOrErrorContent>
+  <div *ngIf="errorObject$">
+    {{ errorObject$.message }}
+  </div>
+</ng-template>
+<ng-template #loading>
+  Loading...
+</ng-template>
