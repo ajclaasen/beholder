@@ -10,7 +10,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 const thrownError = new HttpErrorResponse({
   status: 0, 
-  statusText: "Unknown Error"
+  statusText: "Fake Error"
 });
 
 class MockMonsterDataService {
@@ -62,17 +62,17 @@ describe('ViewMonsterPage', () => {
     });
   });
 
-  describe('when a monster with the specified id is not found', () => {
+  describe('when an error occurs during the HTTP request', () => {
     beforeAll(() => idParam = -1);
     beforeEach(() => fixture.detectChanges());
 
     it('should show the error', () => {
       let pageTitle = fixture.debugElement.query(By.css("ion-title")).nativeElement.innerHTML;
-      let pageBody = fixture.debugElement.query(By.css("ion-content")).nativeElement.innerHTML;
+      let pageContent = fixture.debugElement.query(By.css("ion-content")).nativeElement.innerHTML;
 
-      expect(pageTitle).toContain("Unknown Error");
-      expect(pageBody).toContain("Http failure response");
-      expect(pageBody).toContain("Unknown Error");
+      expect(pageTitle).toContain("Fake Error");
+      expect(pageContent).toContain("Http failure response");
+      expect(pageContent).toContain("Fake Error");
     });
   });
 
@@ -90,10 +90,10 @@ describe('ViewMonsterPage', () => {
     });
 
     it('should show the monster\'s hit points and damage', async(() => {
-      let pageBody = fixture.debugElement.query(By.css("ion-content")).nativeElement.innerHTML;
+      let pageContent = fixture.debugElement.query(By.css("ion-content")).nativeElement.innerHTML;
 
-      expect(pageBody).toContain("123"); // Hit Points
-      expect(pageBody).toContain("456"); // Damage
+      expect(pageContent).toContain("123"); // Hit Points
+      expect(pageContent).toContain("456"); // Damage
     }));
   });
 });

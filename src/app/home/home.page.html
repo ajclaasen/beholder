@@ -1,17 +1,33 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Beholder
+      <span *ngIf="monsters$ | async; else loadingOrErrorTitle">
+        Beholder
+      </span>
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <div class="ion-padding">
-    <ion-list>
-      <ion-item *ngFor="let monster of monsterArray" [routerLink]="['/monster', monster.id]">
+    <ion-list *ngIf="monsters$ | async as monsters; else loadingOrErrorContent">
+      <ion-item *ngFor="let monster of monsters" [routerLink]="['/monster', monster.id]">
         <ion-label>{{monster.name}}</ion-label>
       </ion-item>
     </ion-list>
   </div>
 </ion-content>
+
+<ng-template #loadingOrErrorTitle>
+  <span *ngIf="errorObject$; else loading">
+    {{ errorObject$.statusText }}
+  </span>
+</ng-template>
+<ng-template #loadingOrErrorContent>
+  <div *ngIf="errorObject$">
+    {{ errorObject$.message }}
+  </div>
+</ng-template>
+<ng-template #loading>
+  Loading...
+</ng-template>

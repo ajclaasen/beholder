@@ -13,7 +13,6 @@ import { MonsterDataService } from '../services/monster-data.service';
   styleUrls: ['./view-monster.page.scss'],
 })
 export class ViewMonsterPage implements OnInit {
-  pageTitle: string = "";
   monster$: Observable<IMonster>;
   errorObject$ = null;
 
