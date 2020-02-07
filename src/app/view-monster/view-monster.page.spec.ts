@@ -18,7 +18,15 @@ class MockMonsterDataService {
     if (id != 1) { 
       return throwError(thrownError);
     }
-    return of({ id: id, name: "Alpha", hitPoints: 123, damage: 456 });
+    return of({
+      id: id, 
+      name: "Alpha", 
+      hitPointsAndDice: "4 (1d8)", 
+      actions: [{
+        name: "Slam",
+        description: "Melee Weapon Attack: +2 to hit, reach 5ft., one target. Hit: 3 (1d6) bludgeoning damage."
+      }]
+    });
   }
 }
 
@@ -92,8 +100,8 @@ describe('ViewMonsterPage', () => {
     it('should show the monster\'s hit points and damage', async(() => {
       let pageContent = fixture.debugElement.query(By.css("ion-content")).nativeElement.innerHTML;
 
-      expect(pageContent).toContain("123"); // Hit Points
-      expect(pageContent).toContain("456"); // Damage
+      expect(pageContent).toContain("4 (1d8)"); // Hit Points
+      expect(pageContent).toContain("3 (1d6) bludgeoning damage"); // Damage
     }));
   });
 });
