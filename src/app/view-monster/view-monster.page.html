@@ -10,93 +10,38 @@
 
 <ion-content>
   <div *ngIf="monster$ | async as monster; else loadingOrErrorContent" class="stat-block">
-    <div class="creature-heading">
-      <h1>{{monster?.name}}</h1>
-      <h3>{{monster?.sizeTypeAlignment}}</h3>
-    </div>
+    <vellum-monster
+      class="official"
+      name="{{monster?.name}}"
+      size="{{monster?.size}}"
+      type="{{monster?.type}}"
+      alignment="{{monster?.alignment}}"
+      ac="{{monster?.armorClass}}"
+      armor="{{monster?.armorSource}}"
+      hp="{{monster?.hitPointsAndDice}}"
+      speeds='{{monster?.speed}}'
+      cr="{{monster?.challenge}}"
 
-    <div class="top-stats">
-      <div class="property-line">
-        <h4>Armor Class</h4>
-        <span>{{monster?.armorClass}}</span>
-      </div>
-      <div class="property-line">
-        <h4>Hit Points</h4>
-        <span>{{monster?.hitPointsAndDice}}</span>
-      </div>
-      <div class="property-line">
-        <h4>Speed</h4>
-        <span>{{monster?.speed}}</span>
-      </div>
-    </div>
+      str="{{monster?.strength}}"
+      dex="{{monster?.dexterity}}"
+      con="{{monster?.constitution}}"
+      int="{{monster?.intelligence}}"
+      wis="{{monster?.wisdom}}"
+      cha="{{monster?.charisma}}"
 
-    <div class="abilities-block">
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <h4>STR</h4>
-            <span>{{monster?.strength}}</span>
-          </ion-col>
-          <ion-col>
-            <h4>DEX</h4>
-            <span>{{monster?.dexterity}}</span>
-          </ion-col>
-          <ion-col>
-            <h4>CON</h4>
-            <span>{{monster?.constitution}}</span>
-          </ion-col>
-          <ion-col>
-            <h4>INT</h4>
-            <span>{{monster?.intelligence}}</span>
-          </ion-col>
-          <ion-col>
-            <h4>WIS</h4>
-            <span>{{monster?.wisdom}}</span>
-          </ion-col>
-          <ion-col>
-            <h4>CHA</h4>
-            <span>{{monster?.charisma}}</span>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </div>
+      saving-throws="{{monster?.savingThrows}}"
+      skills="{{monster?.skills}}"
+      vulnerabilities="{{monster?.damageVulnerabilities}}"
+      resistances="{{monster?.damageResistances}}"
+      immunities="{{monster?.damageImmunities}}"
+      condition-immunities="{{monster?.conditionImmunities}}"
+      languages="{{monster?.languages}}"
 
-    <div class="property-line">
-      <h4>Skills</h4>
-      <span>{{monster?.skills}}</span>
-    </div>
-    <div class="property-line">
-      <h4>Damage Immunities</h4>
-      <span>{{monster?.damageImmunities}}</span>
-    </div>
-    <div class="property-line">
-      <h4>Condition Immunities</h4>
-      <span>{{monster?.conditionImmunities}}</span>
-    </div>
-    <div class="property-line">
-      <h4>Senses</h4>
-      <span>{{monster?.senses}}</span>
-    </div>
-    <div class="property-line">
-      <h4>Languages</h4>
-      <span>{{monster?.languages}}</span>
-    </div>
-    <div class="property-line">
-      <h4>Challenge</h4>
-      <span>{{monster?.challenge}}</span>
-    </div>
-
-    <div *ngFor="let trait of monster.traits" class="property-block">
-      <h4>{{trait.name}}</h4>
-      <span>{{trait.description}}</span>
-    </div>
-
-    <h2>Actions</h2>
-
-    <div *ngFor="let action of monster.actions" class="property-block">
-      <h4>{{action.name}}</h4>
-      <span>{{action.description}}</span>
-    </div>
+      senses="{{monster?.senses}}"
+      [traits]="monster?.traits"
+      [actions]="monster?.actions"
+      [reactions]="monster?.reactions"
+    ></vellum-monster>
   </div>
 </ion-content>
 

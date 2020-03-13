@@ -7,6 +7,8 @@ import { IMonster } from '../interfaces/monster';
 
 import { MonsterDataService } from '../services/monster-data.service';
 
+import 'vellum-monster';
+
 @Component({
   selector: 'app-view-monster',
   templateUrl: './view-monster.page.html',

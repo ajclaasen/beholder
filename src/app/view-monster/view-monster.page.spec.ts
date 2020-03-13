@@ -7,6 +7,7 @@ import { MonsterDataService } from './../services/monster-data.service';
 import { ViewMonsterPage } from './view-monster.page';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 const thrownError = new HttpErrorResponse({
   status: 0, 
@@ -49,7 +50,8 @@ describe('ViewMonsterPage', () => {
           provide: MonsterDataService, 
           useClass: MockMonsterDataService 
         }
-      ]
+      ],
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     }).compileComponents();
   }));
 
@@ -97,11 +99,31 @@ describe('ViewMonsterPage', () => {
       expect(pageTitle).toContain("Alpha");
     });
 
-    it('should show the monster\'s hit points and damage', async(() => {
-      let pageContent = fixture.debugElement.query(By.css("ion-content")).nativeElement.innerHTML;
+    it('should show the monster\'s hit points', async () => {
+      // Below is a convoluted mess. I haven't found out how to perform queries
+      // that penetrate the shadow DOM, so for now we have to know exactly where
+      // the shadow roots are, await their loading, and continue the search for
+      // the values we actually want to test.
 
-      expect(pageContent).toContain("4 (1d8)"); // Hit Points
-      expect(pageContent).toContain("3 (1d6) bludgeoning damage"); // Damage
-    }));
+      let monsterElement = fixture.debugElement.query(By.css("vellum-monster")).nativeElement;
+      await monsterElement.updateComplete;
+      let statElement = monsterElement.shadowRoot.querySelector("vellum-stat[id='hp'");
+      await statElement.updateComplete
+      let statElementContent = statElement.shadowRoot.innerHTML
+
+      expect(statElementContent).toContain("4 (1d8)");
+    })
+
+    it('should show the monster\'s damage', async () => {
+      // Same as above, but a slightly different path through the DOM is taken.
+      
+      let monsterElement = fixture.debugElement.query(By.css("vellum-monster")).nativeElement;
+      await monsterElement.updateComplete;
+      let statElement = monsterElement.shadowRoot.querySelector("vellum-stat[name='Slam.']");
+      await statElement.updateComplete;
+      let statElementContent = statElement.shadowRoot.innerHTML
+
+      expect(statElementContent).toContain("3 (1d6) bludgeoning damage"); // Damage
+    });
   });
 });
