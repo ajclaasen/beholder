@@ -1,6 +1,6 @@
 # Beholder
 
-An Ionic application to show monsters created on the Monster Maker website.
+An Ionic application to show monsters created on the [Monster Maker](https://github.com/rjclaasen/monstermaker) website.
 
 ## License
 
