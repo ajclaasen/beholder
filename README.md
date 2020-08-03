@@ -11,6 +11,10 @@ All source code is available under the GNU General Public License. See [LICENSE]
 * Node
 * Cordova
 * Ionic
+* Firefox*
+* Chrome*
+
+*Either of these dependencies can be skipped by removing the browser you do not want to test for in `karma.conf.js`.
 
 ## Getting Started
 
